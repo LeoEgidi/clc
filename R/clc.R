@@ -1,13 +1,13 @@
-#'  CLC estimator Shiny app
 #'
-#'
-#'
+#'  @title CLC
+#'  @description Congeneric Latent Construct Estimator
 #'  @import shiny
 #'  @import shinyWidgets
 #'  @import shinyjs
 #'  @import dplyr
 #'  @import moments
 #'  @import GPArotation
+#'  @export
 #'
 library(shiny)
 

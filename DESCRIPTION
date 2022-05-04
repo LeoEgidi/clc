@@ -2,8 +2,7 @@ Package: clc
 Title: Congeneric Latent Construct (CLC) Estimator
 Version: 0.0.1
 Authors@R: 
-    person("Leonardo", "Egidi", , "legidi@units.t", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Leonardo", "Egidi", , "legidi@units.t", role = c("aut", "cre"))
 Description: Social scientists may compute sum scores 
              to estimate latent constructs, even if 
              it might produce different outcomes as 
