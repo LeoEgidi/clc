@@ -1,4 +1,3 @@
-#'
 #'  @title CLC
 #'  @description Congeneric Latent Construct Estimator
 #'  @import shiny
@@ -8,10 +7,10 @@
 #'  @import moments
 #'  @import GPArotation
 #'  @export
-#'
+
 library(shiny)
 
-myApp <- function(...){
+clc <- function(...){
 ui <- fluidPage(
   #tags$head(includeCSS('www/style.css')),
   shinyjs::useShinyjs(),
