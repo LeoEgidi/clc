@@ -1,4 +1,4 @@
-#'  @title CLC
+#'  CLC
 #'  @description Congeneric Latent Construct Estimator
 #'
 #'  @import shiny
