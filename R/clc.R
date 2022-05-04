@@ -1,5 +1,6 @@
 #'  @title CLC
 #'  @description Congeneric Latent Construct Estimator
+#'
 #'  @import shiny
 #'  @import shinyWidgets
 #'  @import shinyjs
