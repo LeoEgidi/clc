@@ -1,10 +1,25 @@
 Package: clc
-Title: What the Package Does (One Line, Title Case)
+Title: Congeneric Latent Construct (CLC) Estimator
 Version: 0.0.0.9000
 Authors@R: 
     person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+Description: Social scientists may compute sum scores 
+             to estimate latent constructs, even if 
+             it might produce different outcomes as 
+             compared to originally theorised and 
+             tested measures. Although a number of 
+             statistical packages already embed 
+             estimations based on congeneric approaches, 
+             this procedure could be not easily accessible
+             for other types of analyses 
+             (e.g., regression techniques, QCA, ANOVA, MANOVA,
+             etc.). To support a larger audience of social 
+             scientists, we develop an R package embedding an 
+             open source, user-friendly Shiny app named CLC 
+             (Congeneric Latent Construct) estimator for 
+             the computation of latent constructs based on 
+             congeneric approaches.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
