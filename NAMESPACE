@@ -2,7 +2,7 @@
 
 export(clc)
 import(shinyjs)
-import(shinyWidgets)
+#import(shinyWidgets)
 import(dplyr)
 import(moments)
 import(GPArotation)
