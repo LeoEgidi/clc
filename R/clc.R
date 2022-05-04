@@ -1,8 +1,9 @@
-library(shinyWidgets)
-library(shinyjs)
-library(dplyr)
-library(moments)
+#library(shinyWidgets)
+#library(shinyjs)
+#library(dplyr)
+#library(moments)
 #source("psych_functions.R")
+library(shiny)
 
 myApp <- function(...){
 ui <- fluidPage(
@@ -119,7 +120,7 @@ server <- function(input, output, session) {
 
   output$logo <- renderImage({
     return(list(
-      src =  "logo_iper_small.png",
+      src =  "inst/logos/logo_iper_small.png",
       height = 60,
       contentType = "image/png",
       alt = "Face",
