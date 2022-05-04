@@ -1,8 +1,13 @@
-#library(shinyWidgets)
-#library(shinyjs)
-#library(dplyr)
-#library(moments)
-#source("psych_functions.R")
+#' CLC estimator Shiny app
+#'
+#'
+#'  @import shiny
+#'  @import shinyWidgets
+#'  @import shinyjs
+#'  @import dplyr
+#'  @import moments
+#'  @import GPArotation
+#'
 library(shiny)
 
 myApp <- function(...){
