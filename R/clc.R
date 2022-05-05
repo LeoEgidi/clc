@@ -134,7 +134,7 @@ server <- function(input, output, session) {
     ))
   }, deleteFile = FALSE)
 
-  url <- a("Github page", href="https://github.com/LeoEgidi")
+  url <- a("Github page", href="https://github.com/LeoEgidi/clc")
   url2 <- a("Youtube tutorial", href="https://github.com/LeoEgidi")
 
   output$info <- renderUI({
