@@ -235,7 +235,7 @@ server <- function(input, output, session) {
 
       # compute weighted sum or average
 
-      if (input$comp == "weighted average"){
+      if (input$comp == "Weighted Average"){
 
           n_items <- length(input$new.var)
           mat <- as.data.frame(as.table(fit$loadings))
@@ -283,7 +283,7 @@ server <- function(input, output, session) {
 
 
 
-      }else if (input$comp == "weighted sum") {
+      }else if (input$comp == "Weighted Sum") {
         n_items <- length(input$new.var)
         mat <- as.data.frame(as.table(fit$loadings))
         tib <- as_tibble(mat)
