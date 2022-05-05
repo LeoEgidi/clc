@@ -58,7 +58,7 @@ ui <- fluidPage(
                                           "Minimum Residual", "Minimum Residual 2" ),
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       prettyRadioButtons("comp","Latent construct computation", icon = icon("check"),
-                         choices=c("weighted average", "weighted sum"), inline =FALSE, width ='600px',
+                         choices=c("Weighted Average", "Weighted Sum"), inline =FALSE, width ='600px',
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       checkboxInput("missing", "Ignore missing values", TRUE),
       #numericInput("n.fac", "Choose the number of factors", 1),
