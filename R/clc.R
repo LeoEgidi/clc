@@ -306,7 +306,7 @@ server <- function(input, output, session) {
 
         reactives$new[,input$do] <- round(as.numeric(as.vector(var.new)),3)
         reactives$name_vectors[input$do] <- input$name.var
-        colnames(reactives$new[, (1:input$do)]) <- reactives$name_vectors[input$do]
+        colnames(as.matrix(reactives$new[, (1:input$do)])) <- reactives$name_vectors[input$do]
         reactives$new[, (1:input$do)]
       })
 
