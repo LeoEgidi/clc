@@ -69,9 +69,12 @@ ui <- fluidPage(
       column(3, offset =1, actionButton("reset", "Clean & Prepare for new variable",
                                         style="position: relative;height: 70px;width: 290%;text-align:center;color:black;font-weight: bold;background-color:yellow;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
       column(width = 6, offset = 0, style='padding:40px;'),
+
+      column(8, offset =1, shinyDirButton('folder', 'Select a directory', 'Please select a folder')),
+      div(),
       column(8, offset =1, actionButton("download", "Download the computed .csv",
-                                        style="position: relative;height: 70px;width: 100%;text-align:center;color:black;font-weight: bold;background-color:lightblue;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
-      column(8, offset =1, shinyDirButton('folder', 'Select a directory', 'Please select a folder'))
+                                        style="position: relative;height: 70px;width: 100%;text-align:center;color:black;font-weight: bold;background-color:lightblue;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none"))
+
       ),
     mainPanel(
       fluidRow(
