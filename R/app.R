@@ -23,8 +23,6 @@ library(moments)
 
 clc <- function(...){
 ui <- fluidPage(
-
-  #tags$head(includeCSS('www/style.css')),
   shinyjs::useShinyjs(),
   titlePanel(  imageOutput("logo"),
                tags$head(tags$style(('text{width: 10px; font-size:35px; text-align:center; padding:-250px;}')))
@@ -39,9 +37,8 @@ ui <- fluidPage(
             overflow: auto;
             max-height: 100vh;
         }"
-      #   "body {overflow-y: hidden;}"
        )),
-      style = paste0("height: 100vh; overflow-y: auto;"), ##CHANGE
+      style = paste0("height: 100vh; overflow-y: auto;"),
       fileInput("file1", "Choose CSV File",
                 accept = c(
                   "text/csv",
@@ -49,7 +46,6 @@ ui <- fluidPage(
                   ".csv")
       ),
       tags$hr(),
-
       selectizeInput("new.var", "Select items for the latent construct",
                   choices = "",
                   multiple = TRUE,
@@ -72,7 +68,6 @@ ui <- fluidPage(
                          choices=c("Weighted Average", "Weighted Sum"), inline =FALSE, width ='600px',
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       checkboxInput("missing", "Ignore missing values", TRUE),
-      #numericInput("n.fac", "Choose the number of factors", 1),
       column(3, offset =1, actionButton("do", "Calculate",
                    style="position: relative;height: 70px;width: 290%;text-align:center;color:black;font-weight: bold;background-color:#98E0B5;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
       column(width = 6, offset = 0, style='padding:40px;'),
@@ -125,7 +120,6 @@ ui <- fluidPage(
                           font-family: 'NSimSun';
                           }"
                    )))
-          #, style='padding:10px;'
           ))
 
     )
@@ -140,16 +134,13 @@ server <- function(input, output, session) {
 
 
 
-
-
-
-
+ # logo image
   output$logo <- renderImage({
     return(list(
-      src =  "inst/logos/logo_iper_small.png",
+      src =  "inst/shiny/www/logo_iper_small.png",
       height = 60,
       contentType = "image/png",
-      alt = "Face",
+      #alt = "Face",
       align ="center"
     ))
   }, deleteFile = FALSE)
