@@ -71,7 +71,7 @@ ui <- fluidPage(
       column(width = 6, offset = 0, style='padding:40px;'),
       column(8, offset =1, actionButton("download", "Download the computed .csv",
                                         style="position: relative;height: 70px;width: 100%;text-align:center;color:black;font-weight: bold;background-color:lightblue;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
-      column(8, offset =1, shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE))
+      column(8, offset =1, shinyDirButton('folder', 'Select a directory', 'Please select a folder', TRUE))
       ),
     mainPanel(
       fluidRow(
@@ -125,8 +125,14 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
 
+
+
   volumes = getVolumes()
-  shinyDirChoose(input, 'folder', roots=volumes, filetypes=c('', 'csv'))
+  observe({
+    shinyDirChoose(input, 'folder', roots=volumes
+                   , filetypes=c('', 'csv'))
+    print(input$folder)
+  })
 
   output$logo <- renderImage({
     return(list(
@@ -181,6 +187,7 @@ server <- function(input, output, session) {
     #Update select input
     updateSelectInput(session, inputId = 'new.var', label = 'Select items for the latent construct',
                       choices  = colnames(reactives$mydata))
+
 
   })
 
