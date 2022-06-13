@@ -13,6 +13,7 @@ library(shiny)
 
 clc <- function(...){
 ui <- fluidPage(
+  shinyDirButton('folder', 'Select a folder', 'Please select a folder', FALSE),
   #tags$head(includeCSS('www/style.css')),
   shinyjs::useShinyjs(),
   titlePanel(  imageOutput("logo"),
@@ -123,7 +124,7 @@ ui <- fluidPage(
 server <- function(input, output, session) {
 
 
-
+  volumes = getVolumes()
   output$logo <- renderImage({
     return(list(
       src =  "inst/logos/logo_iper_small.png",
@@ -339,6 +340,7 @@ server <- function(input, output, session) {
         showModal(modalDialog(
           title= "The new database has been correctly extracted and saved in the directory.",
           easyclose = TRUE))
+        shinyDirChoose(input, 'folder', roots=volumes, filetypes=c('', 'csv'))
         write.csv(as.data.frame(reactives$new.dataset),
                   file = "new_dataset.csv" )
         })
