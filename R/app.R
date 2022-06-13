@@ -8,6 +8,7 @@
 #'  @import moments
 #'  @import GPArotation
 #'  @import shinyFiles
+#'  @import googlesheets4
 #'  @export
 
 library(shiny)
@@ -17,6 +18,8 @@ library(dplyr)
 library(GPArotation)
 library(shinyFiles)
 library(moments)
+
+
 
 clc <- function(...){
 ui <- fluidPage(
@@ -404,6 +407,9 @@ server <- function(input, output, session) {
         write.csv(as.data.frame(reactives$new.dataset),
                   #paste(as.character(fileinfo$datapath), ".csv")
                   file = paste(as.character(fileinfo$datapath),  "/new_dataset.csv", sep="" ) )
+
+        ss <- gs4_get("https://docs.google.com/clc_sheets")
+        sheet_append(ss, data.frame(time=Sys.time()))
         })
 
 
@@ -2792,6 +2798,21 @@ harmonic.mean <- function (x, na.rm = TRUE, zero = TRUE)
     1/(apply(1/x, 2, mean, na.rm = na.rm))
   }
 }
+
+
+#### Remote storage (next eventual work)
+
+# #library(googlesheets4)
+#
+# # Set authentication token to be stored in a folder called `.secrets`
+# options(gargle_oauth_cache = "clc_sheets")
+#
+# # Authenticate manually
+# gs4_auth()
+#
+# # If successful, the previous step stores a token file.
+# # Check that a file has been created with:
+# list.files("clc_sheets/")
 
 
 
