@@ -126,6 +126,8 @@ server <- function(input, output, session) {
 
 
   volumes = getVolumes()
+  shinyDirChoose(input, 'folder', roots=volumes, filetypes=c('', 'csv'))
+
   output$logo <- renderImage({
     return(list(
       src =  "inst/logos/logo_iper_small.png",
@@ -341,7 +343,7 @@ server <- function(input, output, session) {
         showModal(modalDialog(
           title= "The new database has been correctly extracted and saved in the directory.",
           easyclose = TRUE))
-        shinyDirChoose(input, 'folder', roots=volumes, filetypes=c('', 'csv'))
+
         write.csv(as.data.frame(reactives$new.dataset),
                   file = "new_dataset.csv" )
         })
