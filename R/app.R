@@ -11,6 +11,12 @@
 #'  @export
 
 library(shiny)
+library(shinyjs)
+library(shinyWidgets)
+library(dplyr)
+library(GPArotation)
+library(shinyFiles)
+library(moments)
 
 clc <- function(...){
 ui <- fluidPage(
