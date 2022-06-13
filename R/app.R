@@ -7,6 +7,7 @@
 #'  @import dplyr
 #'  @import moments
 #'  @import GPArotation
+#'  @import shinyFiles
 #'  @export
 
 library(shiny)
@@ -70,8 +71,9 @@ ui <- fluidPage(
                                         style="position: relative;height: 70px;width: 290%;text-align:center;color:black;font-weight: bold;background-color:yellow;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
       column(width = 6, offset = 0, style='padding:40px;'),
 
-      column(8, offset =1, shinyDirButton('folder', 'Select a directory', 'Please select a folder')),
-      div(),
+      column(8, offset =1, shinyDirButton('folder', 'Select a directory', 'Please select a folder',
+                                          style="position: relative;height: 70px;width: 100%;text-align:center;color:black;font-weight: bold;background-color:pink;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none")),
+      #div(style = "padding: 3px 3px"),
       column(8, offset =1, actionButton("download", "Download the computed .csv",
                                         style="position: relative;height: 70px;width: 100%;text-align:center;color:black;font-weight: bold;background-color:lightblue;border-radius: 6px;border-color:gray;border-width:2px;text-decoration:none"))
 
@@ -451,6 +453,8 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 }
+
+
 
 
 
@@ -2782,4 +2786,10 @@ harmonic.mean <- function (x, na.rm = TRUE, zero = TRUE)
     1/(apply(1/x, 2, mean, na.rm = na.rm))
   }
 }
+
+
+
+#### Final call of the app wrapping function
+
+clc()
 
