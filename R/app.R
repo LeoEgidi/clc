@@ -127,11 +127,8 @@ server <- function(input, output, session) {
 
 
 
-  volumes = getVolumes()
-    shinyDirChoose(input, 'folder', session = session,
-                    roots=volumes
-                   #,filetypes=c('', 'csv')
-                   )
+
+
 
   output$logo <- renderImage({
     return(list(
@@ -162,7 +159,8 @@ server <- function(input, output, session) {
     mydata = NULL,
     new.dataset = NULL,
     new = NULL,
-    name_vectors = rep("",10^3)
+    name_vectors = rep("",10^3),
+    volumes = c("UserFolder"="C:/")
 
   )
 
@@ -186,6 +184,9 @@ server <- function(input, output, session) {
     #Update select input
     updateSelectInput(session, inputId = 'new.var', label = 'Select items for the latent construct',
                       choices  = colnames(reactives$mydata))
+    shinyDirChoose(input, "folder", roots=reactives$volumes, session=session)
+
+
 
 
   })
@@ -350,8 +351,15 @@ server <- function(input, output, session) {
           title= "The new database has been correctly extracted and saved in the directory.",
           easyclose = TRUE))
 
+
+        # shinyDirChoose(input, 'folder', session = session,
+        #                roots=c(wd='.'), filetypes=c('', 'txt'),
+        #                defaultPath='')
+
+        fileinfo = parseSavePath(reactives$volumes, input$folder)
         write.csv(as.data.frame(reactives$new.dataset),
-                  file = "new_dataset.csv" )
+                  #paste(as.character(fileinfo$datapath), ".csv")
+                  file = paste(as.character(fileinfo$datapath),  "/new_dataset.csv", sep="" ) )
         })
 
 
