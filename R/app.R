@@ -140,7 +140,6 @@ server <- function(input, output, session) {
       src =  "inst/shiny/www/logo_iper_small.png",
       height = 60,
       contentType = "image/png",
-      #alt = "Face",
       align ="center"
     ))
   }, deleteFile = FALSE)
@@ -148,11 +147,10 @@ server <- function(input, output, session) {
   url <- a("Github page", href="https://github.com/LeoEgidi/clc")
   url2 <- a("Youtube tutorial", href="https://github.com/LeoEgidi")
 
+  # info page
   output$info <- renderUI({
-    #tagList("URL link:", url)
     tagList(a("Github page", href="https://github.com/LeoEgidi"),
             div(),
-            #a("Youtube tutorial", href="https://github.com/LeoEgidi"),
             div(),
             div(style = "padding: 5px 5px"),
             div(HTML("<b>Technical notes</b>")),
@@ -202,17 +200,11 @@ server <- function(input, output, session) {
 
   )
 
-   # reactives2 <- reactiveValues(
-   #   new.dataset = reactives$mydata
-   # )
+
+    #Observe file being selected: input file
+    observeEvent(input$file1, {
 
 
-  #Observe file being selected
-  observeEvent(input$file1, {
-
-    # observe({
-    #   shinyjs::toggleState(id ="do")
-    # })
     #Store loaded data in reactive
     reactives$mydata <- read.csv(file = input$file1$datapath)
     reactives$new.dataset <- reactives$mydata
@@ -223,9 +215,6 @@ server <- function(input, output, session) {
     updateSelectInput(session, inputId = 'new.var', label = 'Select items for the latent construct',
                       choices  = colnames(reactives$mydata))
     shinyDirChoose(input, "folder", roots=reactives$volumes, session=session)
-
-
-
 
   })
 
@@ -244,14 +233,12 @@ server <- function(input, output, session) {
 
     read.csv(inFile$datapath, header = TRUE)
 
-  })
+    })
 
 
+    # calculation step
     observeEvent(input$do,{
-
       data <- as.matrix(reactives$mydata)[, input$new.var]
-
-
 
       if (input$missing == TRUE){
         if (sum(is.na(data))>0){
@@ -269,6 +256,7 @@ server <- function(input, output, session) {
       }
 
 
+      # factor analysis
       fit <- fa(r = data, rotate = "varimax",
                 nfactors = 1,
                  fm = input$method)
@@ -282,8 +270,7 @@ server <- function(input, output, session) {
 
 
 
-      # compute weighted sum or average
-
+      # compute the new latent cosntruct as a weighted sum or average
       if (input$comp == "Weighted Average"){
 
           n_items <- length(input$new.var)
@@ -301,7 +288,7 @@ server <- function(input, output, session) {
           var.new <- apply(factor_prod_vec,2, sum)/sum(factor_loading)
 
 
-
+          # computed statistics
           output$stat <- renderTable({
             var <- as.numeric(as.vector(var.new))
             mode <- function(x){f <- table(x); as.numeric(names(which.max(f)))}
@@ -390,17 +377,10 @@ server <- function(input, output, session) {
           easyclose = TRUE))
 
 
-        # shinyDirChoose(input, 'folder', session = session,
-        #                roots=c(wd='.'), filetypes=c('', 'txt'),
-        #                defaultPath='')
-
         fileinfo = parseSavePath(reactives$volumes, input$folder)
         write.csv(as.data.frame(reactives$new.dataset),
-                  #paste(as.character(fileinfo$datapath), ".csv")
                   file = paste(as.character(fileinfo$datapath),  "/new_dataset.csv", sep="" ) )
 
-        ss <- gs4_get("https://docs.google.com/clc_sheets")
-        sheet_append(ss, data.frame(time=Sys.time()))
         })
 
 
@@ -430,8 +410,6 @@ server <- function(input, output, session) {
         NULL
       })
 
-
-
     })
 
      observe({
@@ -447,10 +425,6 @@ server <- function(input, output, session) {
        shinyjs::toggleState(id ="download", condition = input$do > 0 &&
                               !is.null(reactives$mydata ))
      })
-
-
-
-
 
 }
 
@@ -2804,7 +2778,8 @@ harmonic.mean <- function (x, na.rm = TRUE, zero = TRUE)
 # # If successful, the previous step stores a token file.
 # # Check that a file has been created with:
 # list.files("clc_sheets/")
-
+# ss <- gs4_get("https://docs.google.com/clc_sheets")
+# sheet_append(ss, data.frame(time=Sys.time()))
 
 
 #### Final call of the app wrapping function
