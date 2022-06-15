@@ -4,7 +4,7 @@ CLC estimator shiny R package.
 
 Available online here:
 
-(https://plsdeams.shinyapps.io/CLC_Estimator/)[CLC estimator]
+<a href="url">https://plsdeams.shinyapps.io/CLC_Estimator/</a>
 
 
 To directly download and use the CLC estimator from RStudio, open a new RStudio consolle and type:
