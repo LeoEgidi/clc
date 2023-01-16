@@ -279,7 +279,8 @@ server <- function(input, output, session) {
     new.dataset = NULL,
     new = NULL,
     name_vectors = rep("",10^3),
-    volumes = c("UserFolder"="C:/")
+    volumes = c("UserFolder"="C:/"),
+    first_name = ""
 
   )
 
@@ -542,10 +543,16 @@ server <- function(input, output, session) {
         print("Your construct has been successfully estimated")
 
         reactives$new[,input$do] <- round(as.numeric(as.vector(var.new)),3)
-        reactives$name_vectors[input$do] <- input$name.var
-        colnames(reactives$new) <- reactives$name_vectors
+        reactives$name_vectors[1] <- reactives$first_name
+        reactives$name_vectors[input$do+1] <- input$name.var
+
+        if (input$do > 1){
+           colnames(reactives$new) <- reactives$name_vectors
+        }
         scores <- as.matrix(reactives$new[, (1:input$do)])
-        colnames(scores)[1] <- reactives$name_vectors[1]
+        colnames(scores)[1] <- reactives$first_name
+
+          #reactives$name_vectors[1]
         scores
       })
 
@@ -653,6 +660,14 @@ server <- function(input, output, session) {
                                   ))
        }
      })
+
+
+     observeEvent(input$do <1,{
+       reactives$first_name = input$name.var
+     })
+
+
+
 
 
 
