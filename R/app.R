@@ -88,8 +88,8 @@ ui <- fluidPage(
                          choiceNames = c("EFA maximum likelihood", "EFA ordinary least squares", "EFA weighted least squares", "EFA generalized least squares", "IRT expectation-maximization"),
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       prettyRadioButtons("comp","Select the score estimation method", icon = icon("check"),
-                         choiceValues=c("Weighted average", "Weighted sum", "Bartlett", "regression", "EAP", "MAP", "ML"),
-                         choiceNames=c("Weighted average", "Weighted sum", "Bartlett", "Regression", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
+                         choiceValues=c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum",    "Bartlett", "regression", "EAP", "MAP", "ML"),
+                         choiceNames=c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "Regression", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
                          inline =FALSE, width ='600px',
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       column(width = 3, offset =1, actionButton("do", "Calculate",
@@ -187,48 +187,49 @@ server <- function(input, output, session) {
   # info page
   output$info <- renderUI({
     tagList(
-            div(HTML("<b>Software version</b>: v1.1")),
+            div(HTML("<b>Software version</b>: v1.2")),
             div(style = "padding: 5px 5px"),
-            div(HTML("<b>To cite CLC Estimator (APA 7th)</b>: Marzi, G., Balzano, M., Egidi, L., Magrini, A. (2023). Concegeric Latent Contruct Estimator - CLC Estimator [Computer software].")),
+            div(HTML("<b>To cite the CLC Estimator (APA 7th)</b>: Marzi, G., Balzano, M., Egidi, L., Magrini, A. (2023). CLC estimator: a tool for latent construct estimation via congeneric approaches in survey research. <em>Multivariate Behavioral Research</em>, (in press). DOI: ")),
             a("https://plsdeams.shinyapps.io/CLC_Estimator/", href ="https://plsdeams.shinyapps.io/CLC_Estimator/"),
             div(style = "padding: 5px 5px"),
-            div(HTML("<b>Code</b>:")),
-            a("Github page", href= "https://github.com/LeoEgidi/clc"),
+            div(HTML("<b>Code</b>:"), a("https://github.com/LeoEgidi/clc", href= "https://github.com/LeoEgidi/clc")),
             div(style = "padding: 5px 5px"),
-            div(HTML("<b>Sample Dataset (comma separated)</b>:")),
-            a("https://dx.doi.org/10.6084/m9.figshare.21786335", href = "https://dx.doi.org/10.6084/m9.figshare.21786335"),
+            div(HTML("<b>Sample Dataset (comma separated)</b>:"), a("https://dx.doi.org/10.6084/m9.figshare.21786335", href = "https://dx.doi.org/10.6084/m9.figshare.21786335")),
             div(style = "padding: 5px 5px"),
-            div(HTML("<b> Data policy</b>: Uploaded files will not be saved locally by CLC estimator. All data will be deleted after when closing CLC Estimator session.")),
+            div(HTML("<b> Data policy</b>: Uploaded files will not be saved locally by the CLC estimator. All data will be deleted after when closing the CLC Estimator session.")),
             div(style = "padding: 5px 5px"),
             div(HTML("<b>Usage notes</b>")),
             div(),
-            div(HTML("<em>What can CLC estimator do?</em>")),
+            div(HTML("<em>What can the CLC estimator do?</em>")),
             div(),
-           "The code only estimates unidimensional latent constructs based on congeneric approaches. CLC estimator is not intended for statistical procedures commonly available in already available statistical packages such as exploratory factor analysis, principal component analysis, or confirmatory factor analysis.",
+           "The app only estimates unidimensional latent constructs based on congeneric approaches. The CLC estimator is not intended for statistical procedures commonly available in existing statistical packages, such as exploratory factor analysis, principal component analysis or confirmatory factor analysis.",
             div(style = "padding: 5px 5px"),
-            div(HTML("<em>When should CLC estimator be used? </em>")),
+            div(HTML("<em>When should the CLC estimator be used? </em>")),
             div(),
-            "CLC estimator performs latent construct estimation via congeneric approaches when the available statistical packages do not embed this function. For example, scholars can use CLC estimator when they perform analysis with PLS-SEM and want to integrate such analysis with a QCA analysis.",
+            "The CLC estimator performs latent construct estimation via congeneric approaches when the available statistical packages do not include this function. For example, scholars can use the CLC estimator when they perform analysis with PLS-SEM and want to integrate such analysis with a QCA analysis.",
             div(style = "padding: 5px 5px"),
             div(HTML("<em>At what point in the data analysis process the CLC estimator should be used?  </em>")),
             div(),
-            "CLC estimator should be integrated into the data analysis process after having checked the items (including reliability analysis) to be retained in the estimation of the latent construct.
-            When the CLC estimator should not be used? CLC estimator assumes a common factor model, i.e., a reflective latent construct. Therefore, it is not adequate when the latent construct is a composite (Rhemtulla et al., 2020).",
+            "The CLC estimator should be integrated into the data analysis process after review (including reliability analysis) of the items to be retained in the latent construct estimation.",
             div(style = "padding: 5px 5px"),
-            div(HTML("<em>How to deal with missing data, outliers, and other data issues in CLC estimator? </em>")),
+            div(HTML("<em> When the CLC estimator should not be used?</em>")),
+            "The CLC estimator assumes a common factor model, i.e. a reflective latent construct. Therefore, it is not appropriate when the latent construct is a composite (Rhemtulla et al., 2020).",
+            div(style = "padding: 5px 5px"),
+            div(HTML("<em>How to deal with missing data, outliers, and other data issues in the CLC estimator? </em>")),
             div(),
-            "CLC estimator does not treat missing data, outliers or incomplete data. The users are supposed to cope with these issues before using CLC estimator. Specifically for missing data,  note that CLC Estimator applies the default missing data treatment procedure embedded in 'psych' and 'mirt' R packages. For EFA, the correlation matrix is computed with 'pairwise complete observations'. For IRT, 'full information maximum likelihood' is employed. If the database has missing data, CLC estimator promptly warns users about this issue.",
+            "The CLC estimator does not handle missing data, outliers or incomplete data. Users are encouraged to address these issues before using the CLC estimator. Specifically for missing data, note that the CLC estimator uses the standard missing data handling procedures embedded in the 'psych' and 'mirt' R packages. For the EFA model, the correlation matrix is computed based on pairwise complete observations. For the graded IRT model, full information maximum likelihood is used. If the data contain missing values, the CLC estimator warns the user immediately.",
             div(style = "padding: 5px 5px"),
-            div(HTML("<em>How to create a usable .csv file for CLC estimator?</em>")),
+            div(HTML("<em>How to create a usable .csv file for the CLC estimator?</em>")),
             div(),
-            div(HTML("CLC estimator supports standard .csv files generated with commonly used statistical packages. The first row of the .csv file should contain the variables’ labels (i.e., the header), while the other rows should contain the data. The .csv file loading interface allows the user to select the delimiter between values (comma, semicolon, tab). The .csv file should be formatted in UNICODE with decimal symbols expressed in periods following the international scientific conventions.")),
+            div(HTML("The CLC estimator supports standard .csv files generated by popular statistical packages. The first row of the .csv file should contain the labels of the variables (i.e. the header), while the other rows should contain the data. The .csv file loading interface allows the user to select the delimiter between values (comma, semicolon, tab). The .csv file should be formatted in UNICODE, with decimal symbols expressed in points according to international scientific conventions. A sample dataset in .csv format (comma delimiter) is available at: ")),
+           a( "https://dx.doi.org/10.6084/m9.figshare.21786335"  , href= "https://dx.doi.org/10.6084/m9.figshare.21786335"),
             div(style = "padding: 5px 5px"),
-            div(HTML("<em>What type of model estimation method should be used to estimate the latent constructs? </em>")),
+            div(HTML("<em>What type of model estimation method should be used to estimate the latent constructs?  </em>")),
             div(),
-            "If social scientists are adopting previously validated scales, the same estimation method used for those scales should be used. If neither the estimation method is specified by the first developers of the scales, nor such scales are previously validated, maximum likelihood estimation (MLE) is recommended (for a detailed discussion on the topic, see Thompson, 2004).",
+            "When social scientists use previously validated scales, the same method of estimation should be used for those scales. If neither the estimation method is specified by the original developers of the scales nor such scales have been previously validated, maximum likelihood estimation (MLE) is recommended (for a detailed discussion of this topic, see Thompson, 2004).",
             div(style = "padding: 5px 5px"),
-            div(HTML("<em>What type of output does CLC estimator produce?  </em>")),
-            "CLC estimator generates a standard .csv file with variable names in the first row and values in the other rows. The generated .csv file output can then be easily imported into commonly used statistical packages.",
+            div(HTML("<em>What type of output does the CLC estimator produce?  </em>")),
+            "CLC estimator generates a standard .csv file with variable names in the first row and values in the remaining rows. The generated .csv file output can be easily imported into popular statistical packages.",
             div(style = "padding: 5px 5px"),
             div(HTML("<b>Install and use in R</b>")),
             div(style = "padding: 5px 5px"),
@@ -379,6 +380,46 @@ server <- function(input, output, session) {
             }
           # new latent construct
           var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
+          }else if(input$comp == "Unweighted average"){
+            fit <- psych::fa(r = data, rotate = "none",
+                             nfactors = 1,
+                             fm = input$method,
+                             scores = "regression",
+                             missing = TRUE,
+                             impute = "median")
+            n_items <- length(input$new.var)
+            mat <- as.data.frame(as.table(fit$loadings))
+            tib <- as_tibble(mat)
+            factor_loading <- c()
+            factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+
+            for (i in 1:n_items){
+              new.tib <- tib %>% filter(Var1 == input$new.var[i])
+              factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+              factor_prod_vec[i,] <- data[, input$new.var[i]]
+            }
+            # new latent construct
+            var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
+          }else if(input$comp == "Unweighted sum"){
+            fit <- psych::fa(r = data, rotate = "none",
+                             nfactors = 1,
+                             fm = input$method,
+                             scores = "regression",
+                             missing = TRUE,
+                             impute = "median")
+            n_items <- length(input$new.var)
+            mat <- as.data.frame(as.table(fit$loadings))
+            tib <- as_tibble(mat)
+            factor_loading <- c()
+            factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+
+            for (i in 1:n_items){
+              new.tib <- tib %>% filter(Var1 == input$new.var[i])
+              factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+              factor_prod_vec[i,] <- data[, input$new.var[i]]
+            }
+            # new latent construct
+            var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
         }
       }else if (input$method=="EM" | input$method == "MCEM" | input$method =="QMCEM"){
         # irt with mirt
@@ -415,6 +456,34 @@ server <- function(input, output, session) {
             factor_prod_vec[i,] <- factor_loading[i]*data[, input$new.var[i]]
           }
           var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)/sum(factor_loading, na.rm = TRUE)
+        }else if (input$comp == "Unweighted average"){
+          fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
+          n_items <- length(input$new.var)
+          mat <- as.data.frame(as.table(fit$loadings))
+          tib <- as_tibble(mat)
+          factor_loading <- c()
+          factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+
+          for (i in 1:n_items){
+            new.tib <- tib %>% filter(Var1 == input$new.var[i])
+            factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+            factor_prod_vec[i,] <- data[, input$new.var[i]]
+          }
+          var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
+        }else if (input$comp == "Unweighted sum"){
+          fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
+          n_items <- length(input$new.var)
+          mat <- as.data.frame(as.table(fit$loadings))
+          tib <- as_tibble(mat)
+          factor_loading <- c()
+          factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+
+          for (i in 1:n_items){
+            new.tib <- tib %>% filter(Var1 == input$new.var[i])
+            factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+            factor_prod_vec[i,] <- data[, input$new.var[i]]
+          }
+          var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
         }
       }
       options(warn = defaultW)
@@ -433,7 +502,7 @@ server <- function(input, output, session) {
         p <- length(lambda)
         o <- psych::omega(m=data)
         mode <- function(x){f <- table(x); as.numeric(names(which.max(f)))}
-        stat_table <- matrix(NA, 17, 2)
+        stat_table <- matrix(NA, 16, 2)
         stat_table[, 2] <- c(
           round(mean(var, na.rm = TRUE),2),   # mean
           round(mode(var),2),   # mode
@@ -449,14 +518,14 @@ server <- function(input, output, session) {
           round(kurtosis(var, na.rm = TRUE),2), # kurtosis
           round(skewness(var, na.rm = TRUE),2),  # skewness
           round(o$alpha,2),  # alpha cronbach
-          round(o$omega_h,2),  # omega
+          #round(sum(lambda)^2/var(var),2),  # old omega
           round(mean(lambda^2),2), # ave
-          round(sum(lambda)^2/(sum(lambda)^2+sum(1-lambda^2)),2))    # composite reliability
+          round(sum(lambda)^2/(sum(lambda)^2+sum(1-lambda^2)),2))    # omega
           colnames(stat_table) <- c("Statistics", input$name.var)
           stat_table[,1] <- c("Mean", "Mode", "Median", "SD",
                             "1st Quartile", "3rd Quartile", "Min", "Max",
                             "Range", "N", "Sum", "Kurtosis", "Skewness",
-                            "Cronbach alpha", "Omega McDonald", "AVE", "Comp. rel.")
+                            "Cronbach alpha", "AVE", "McDonald omega")
         stat_table
 
       })
@@ -563,9 +632,9 @@ server <- function(input, output, session) {
        if (input$method == "ml"| input$method == "ols" | input$method == "wls" | input$method =="gls"){
 
          # psych::fa methods
-         mychoices <- c("Weighted average", "Weighted sum", "Bartlett", "regression" )
+         mychoices <- c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "regression" )
          updatePrettyRadioButtons(session, "comp",
-                                  choiceNames = c("Weighted average", "Weighted sum", "Bartlett", "Regression"),
+                                  choiceNames = c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "Regression"),
                                   choiceValues = mychoices, selected = NULL,
                                   prettyOptions = list(inline =FALSE,
                                                        icon = icon("check"),
@@ -578,9 +647,9 @@ server <- function(input, output, session) {
        }else{
 
          # mirt::mirty methods
-         mychoices <- c("Weighted average", "Weighted sum", "EAP", "MAP", "ML")
+         mychoices <- c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "EAP", "MAP", "ML")
          updatePrettyRadioButtons(session, "comp",
-                                  choiceNames = c("Weighted average", "Weighted sum", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
+                                  choiceNames = c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
                                   choiceValues = mychoices, selected = NULL,
                                   prettyOptions = list(inline =FALSE,
                                   icon = icon("check"),
