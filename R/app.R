@@ -45,7 +45,7 @@ ui <- fluidPage(
                         font-size:18px;
                   } ")),
   shinyjs::useShinyjs(),
-  titlePanel(  imageOutput("logo"),
+  titlePanel(imageOutput("logo"),
                tags$head(tags$style(('text{width: 10px; font-size:35px; text-align:center; padding:-250px;}')))
                ),
   div(style = "font-size: 14px;
@@ -500,9 +500,8 @@ server <- function(input, output, session) {
         var <- as.numeric(as.vector(var.new))
         lambda <- round(as.table(fit$loadings),3)
         p <- length(lambda)
-        o <- psych::omega(m=data)
         mode <- function(x){f <- table(x); as.numeric(names(which.max(f)))}
-        stat_table <- matrix(NA, 16, 2)
+        stat_table <- matrix(NA, 17, 2)
         stat_table[, 2] <- c(
           round(mean(var, na.rm = TRUE),2),   # mean
           round(mode(var),2),   # mode
@@ -517,15 +516,16 @@ server <- function(input, output, session) {
           round(sum(var, na.rm = TRUE),2), # sum
           round(kurtosis(var, na.rm = TRUE),2), # kurtosis
           round(skewness(var, na.rm = TRUE),2),  # skewness
-          round(o$alpha,2),  # alpha cronbach
-          #round(sum(lambda)^2/var(var),2),  # old omega
+          round(psych::omega(m=data)$alpha,2),  # alpha cronbach
+          round(psych::omega(m=data,1)$omega_h ,2),  #  omega
           round(mean(lambda^2),2), # ave
-          round(sum(lambda)^2/(sum(lambda)^2+sum(1-lambda^2)),2))    # omega
+          round(sum(lambda)^2/(sum(lambda)^2+sum(1-lambda^2)),2))    # cr
           colnames(stat_table) <- c("Statistics", input$name.var)
           stat_table[,1] <- c("Mean", "Mode", "Median", "SD",
                             "1st Quartile", "3rd Quartile", "Min", "Max",
                             "Range", "N", "Sum", "Kurtosis", "Skewness",
-                            "Cronbach alpha", "AVE", "McDonald omega")
+                            "Cronbach alpha", "McDonald omega",
+                            "AVE", "Composite reliability")
         stat_table
 
       })
