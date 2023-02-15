@@ -420,7 +420,7 @@ server <- function(input, output, session) {
         #     }
         #     # new latent construct
         #     var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
-        # }
+         }
       }else if (input$method=="EM" | input$method == "MCEM" | input$method =="QMCEM"){
         # irt with mirt
         if  (input$comp == "EAP" |input$comp == "MAP"| input$comp == "ML" ){
@@ -484,7 +484,7 @@ server <- function(input, output, session) {
         #     factor_prod_vec[i,] <- data[, input$new.var[i]]
         #   }
         #   var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
-        # }
+         }
       }
       options(warn = defaultW)
 
