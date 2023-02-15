@@ -88,8 +88,8 @@ ui <- fluidPage(
                          choiceNames = c("EFA maximum likelihood", "EFA ordinary least squares", "EFA weighted least squares", "EFA generalized least squares", "IRT expectation-maximization"),
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       prettyRadioButtons("comp","Select the score estimation method", icon = icon("check"),
-                         choiceValues=c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum",    "Bartlett", "regression", "EAP", "MAP", "ML"),
-                         choiceNames=c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "Regression", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
+                         choiceValues=c("Weighted average", "Weighted sum",  "Bartlett", "regression", "EAP", "MAP", "ML"),
+                         choiceNames=c("Weighted average", "Weighted sum",   "Bartlett", "Regression", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
                          inline =FALSE, width ='600px',
                          animation = "pulse", status = "danger", shape ="round", thick =TRUE),
       column(width = 3, offset =1, actionButton("do", "Calculate",
@@ -380,47 +380,47 @@ server <- function(input, output, session) {
             }
           # new latent construct
           var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
-          }else if(input$comp == "Unweighted average"){
-            fit <- psych::fa(r = data, rotate = "none",
-                             nfactors = 1,
-                             fm = input$method,
-                             scores = "regression",
-                             missing = TRUE,
-                             impute = "median")
-            n_items <- length(input$new.var)
-            mat <- as.data.frame(as.table(fit$loadings))
-            tib <- as_tibble(mat)
-            factor_loading <- c()
-            factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
-
-            for (i in 1:n_items){
-              new.tib <- tib %>% filter(Var1 == input$new.var[i])
-              factor_loading[i] <- round(as.numeric(new.tib[3]),3)
-              factor_prod_vec[i,] <- data[, input$new.var[i]]
-            }
-            # new latent construct
-            var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
-          }else if(input$comp == "Unweighted sum"){
-            fit <- psych::fa(r = data, rotate = "none",
-                             nfactors = 1,
-                             fm = input$method,
-                             scores = "regression",
-                             missing = TRUE,
-                             impute = "median")
-            n_items <- length(input$new.var)
-            mat <- as.data.frame(as.table(fit$loadings))
-            tib <- as_tibble(mat)
-            factor_loading <- c()
-            factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
-
-            for (i in 1:n_items){
-              new.tib <- tib %>% filter(Var1 == input$new.var[i])
-              factor_loading[i] <- round(as.numeric(new.tib[3]),3)
-              factor_prod_vec[i,] <- data[, input$new.var[i]]
-            }
-            # new latent construct
-            var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
-        }
+        #   }else if(input$comp == "Unweighted average"){
+        #     fit <- psych::fa(r = data, rotate = "none",
+        #                      nfactors = 1,
+        #                      fm = input$method,
+        #                      scores = "regression",
+        #                      missing = TRUE,
+        #                      impute = "median")
+        #     n_items <- length(input$new.var)
+        #     mat <- as.data.frame(as.table(fit$loadings))
+        #     tib <- as_tibble(mat)
+        #     factor_loading <- c()
+        #     factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+        #
+        #     for (i in 1:n_items){
+        #       new.tib <- tib %>% filter(Var1 == input$new.var[i])
+        #       factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+        #       factor_prod_vec[i,] <- data[, input$new.var[i]]
+        #     }
+        #     # new latent construct
+        #     var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
+        #   }else if(input$comp == "Unweighted sum"){
+        #     fit <- psych::fa(r = data, rotate = "none",
+        #                      nfactors = 1,
+        #                      fm = input$method,
+        #                      scores = "regression",
+        #                      missing = TRUE,
+        #                      impute = "median")
+        #     n_items <- length(input$new.var)
+        #     mat <- as.data.frame(as.table(fit$loadings))
+        #     tib <- as_tibble(mat)
+        #     factor_loading <- c()
+        #     factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+        #
+        #     for (i in 1:n_items){
+        #       new.tib <- tib %>% filter(Var1 == input$new.var[i])
+        #       factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+        #       factor_prod_vec[i,] <- data[, input$new.var[i]]
+        #     }
+        #     # new latent construct
+        #     var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
+        # }
       }else if (input$method=="EM" | input$method == "MCEM" | input$method =="QMCEM"){
         # irt with mirt
         if  (input$comp == "EAP" |input$comp == "MAP"| input$comp == "ML" ){
@@ -456,35 +456,35 @@ server <- function(input, output, session) {
             factor_prod_vec[i,] <- factor_loading[i]*data[, input$new.var[i]]
           }
           var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)/sum(factor_loading, na.rm = TRUE)
-        }else if (input$comp == "Unweighted average"){
-          fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
-          n_items <- length(input$new.var)
-          mat <- as.data.frame(as.table(fit$loadings))
-          tib <- as_tibble(mat)
-          factor_loading <- c()
-          factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
-
-          for (i in 1:n_items){
-            new.tib <- tib %>% filter(Var1 == input$new.var[i])
-            factor_loading[i] <- round(as.numeric(new.tib[3]),3)
-            factor_prod_vec[i,] <- data[, input$new.var[i]]
-          }
-          var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
-        }else if (input$comp == "Unweighted sum"){
-          fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
-          n_items <- length(input$new.var)
-          mat <- as.data.frame(as.table(fit$loadings))
-          tib <- as_tibble(mat)
-          factor_loading <- c()
-          factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
-
-          for (i in 1:n_items){
-            new.tib <- tib %>% filter(Var1 == input$new.var[i])
-            factor_loading[i] <- round(as.numeric(new.tib[3]),3)
-            factor_prod_vec[i,] <- data[, input$new.var[i]]
-          }
-          var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
-        }
+        # }else if (input$comp == "Unweighted average"){
+        #   fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
+        #   n_items <- length(input$new.var)
+        #   mat <- as.data.frame(as.table(fit$loadings))
+        #   tib <- as_tibble(mat)
+        #   factor_loading <- c()
+        #   factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+        #
+        #   for (i in 1:n_items){
+        #     new.tib <- tib %>% filter(Var1 == input$new.var[i])
+        #     factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+        #     factor_prod_vec[i,] <- data[, input$new.var[i]]
+        #   }
+        #   var.new <- apply(factor_prod_vec,2, mean, na.rm = TRUE)
+        # }else if (input$comp == "Unweighted sum"){
+        #   fit <- gradedIRT_1(data, method = input$method, extraction = "EAP", n.input = length(input$new.var))
+        #   n_items <- length(input$new.var)
+        #   mat <- as.data.frame(as.table(fit$loadings))
+        #   tib <- as_tibble(mat)
+        #   factor_loading <- c()
+        #   factor_prod_vec <- matrix(NA, n_items, dim(data)[1])
+        #
+        #   for (i in 1:n_items){
+        #     new.tib <- tib %>% filter(Var1 == input$new.var[i])
+        #     factor_loading[i] <- round(as.numeric(new.tib[3]),3)
+        #     factor_prod_vec[i,] <- data[, input$new.var[i]]
+        #   }
+        #   var.new <- apply(factor_prod_vec,2, sum, na.rm = TRUE)
+        # }
       }
       options(warn = defaultW)
 
@@ -632,9 +632,9 @@ server <- function(input, output, session) {
        if (input$method == "ml"| input$method == "ols" | input$method == "wls" | input$method =="gls"){
 
          # psych::fa methods
-         mychoices <- c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "regression" )
+         mychoices <- c("Weighted average", "Weighted sum",  "Bartlett", "regression" )
          updatePrettyRadioButtons(session, "comp",
-                                  choiceNames = c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Bartlett", "Regression"),
+                                  choiceNames = c("Weighted average", "Weighted sum",  "Bartlett", "Regression"),
                                   choiceValues = mychoices, selected = NULL,
                                   prettyOptions = list(inline =FALSE,
                                                        icon = icon("check"),
@@ -647,9 +647,9 @@ server <- function(input, output, session) {
        }else{
 
          # mirt::mirty methods
-         mychoices <- c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "EAP", "MAP", "ML")
+         mychoices <- c("Weighted average", "Weighted sum",  "EAP", "MAP", "ML")
          updatePrettyRadioButtons(session, "comp",
-                                  choiceNames = c("Weighted average", "Weighted sum", "Unweighted average", "Unweighted sum", "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
+                                  choiceNames = c("Weighted average", "Weighted sum",  "Expected a-posteriori", "Maximum a-posteriori", "Maximum likelihood"),
                                   choiceValues = mychoices, selected = NULL,
                                   prettyOptions = list(inline =FALSE,
                                   icon = icon("check"),
@@ -705,14 +705,15 @@ gradedIRT_1 <- function(data, method, extraction, maxit=5000, tol=1e-4, n.input 
 
 ## Fit indices with function psych::fa
 fitIndices <- function(x) {
-  chi <- x$chi
+  chi <- x$STATISTIC  # based on likelihood, not the empirical one
   df <- x$dof
   p <- x$PVAL
   RMSEA <- x$RMSEA[1]
   RMSEA_5 <- x$RMSEA[2]
   RMSEA_95 <- x$RMSEA[3]
   resmat <- x$residual
-  SRMSR <- sqrt(mean(resmat[lower.tri(resmat,diag=T)]^2))
+  SRMR <- x$rms    # standardized root mean square errors. Look here: https://stats.stackexchange.com/questions/366952/how-can-i-calculate-the-standardized-root-mean-square-residual-srmr-from-the-p
+    # sqrt(mean(resmat[lower.tri(resmat,diag=T)]^2))
   TLI <- x$TLI
   CFI <- ((x$null.chisq-x$null.dof)-(x$STATISTIC-x$dof))/(x$null.chisq-x$null.dof)
   df <- data.frame(
@@ -721,7 +722,7 @@ fitIndices <- function(x) {
              RMSEA = RMSEA,
              #RMSEA_5 =RMSEA_5,
              #RMSEA_95 = RMSEA_95,
-             SRMSR = SRMSR, TLI = TLI, CFI = CFI)
+             SRMR = SRMR, TLI = TLI, CFI = CFI)
   row.names(df) <- "stats"
   return(df)
 }
