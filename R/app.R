@@ -693,6 +693,8 @@ gradedIRT_1 <- function(data, method, extraction, maxit=5000, tol=1e-4, n.input 
   Zok <- Z[,1]*sd(unlist(data), na.rm = TRUE)+mean(unlist(data), na.rm = TRUE)
   if (n.input > 3){
   stats <- mirt::M2(mod,type="C2")
+  #stats <- as.matrix(stats)
+  colnames(stats)[c(1:4, 7,8,9)] <- c("M2", "df", "p", "RMSEA", "SRMR", "TLI", "CFI")
   }else{
   stats <- "Statistics cannot be calculated due to too few degrees of freedom."
   }
